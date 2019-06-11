@@ -1,2 +1,14 @@
 <h1>{{ question.question_text }}</h1>
-<p>Published: {{question.pub_date }}</p>
+{% with choices=question.choice_set.all %}
+    <p>Published: {{ question.pub_date }}</p>
+    <h2>Choices:</h2>
+    {% if choices %}
+        <ul>
+        {% for choice in choices %}
+            <li>{{ choice.choice_text }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No choices have been added to this question yet! :(</p>
+    {% endif %}
+{% endwith %}
