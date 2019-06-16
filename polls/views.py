@@ -2,22 +2,33 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.views import generic
 from django.db.models import F
 from .models import Question, Choice
 # Create your views here.
 
 
-def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    context = {"latest_question_list": latest_question_list}
-    return render(request, 'index.html', context)
+class IndexView(generic.ListView):
+    template_name = 'index.html'
+    context_object_name = 'latest_question_list'
 
+    def get_queryset(self):
+        return Question.objects.order_by('-pub_date')[:5]
+
+
+class DetailView(generic.DetailView):
+    template_name = 'detail.html'
+    model = Question
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'detail.html', {"question": question})
 
+class ResultsView(generic.DetailView):
+    template_name = 'results.html'
+    model = Question
 
+    
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'results.html', {"question": question})
