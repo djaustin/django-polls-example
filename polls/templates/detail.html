@@ -1,13 +1,21 @@
 <h1>{{ question.question_text }}</h1>
 {% with choices=question.choice_set.all %}
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+
     <p>Published: {{ question.pub_date }}</p>
     <h2>Choices:</h2>
     {% if choices %}
-        <ul>
+        <form action={% url 'polls:vote' question.id %} method='POST'>
+        {% csrf_token %}
         {% for choice in choices %}
-            <li>{{ choice.choice_text }}</li>
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
         {% endfor %}
-        </ul>
+        <input type="submit" value="Vote" />
+        </form>
     {% else %}
         <p>No choices have been added to this question yet! :(</p>
     {% endif %}

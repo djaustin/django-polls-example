@@ -1,6 +1,8 @@
 # pylint: disable=no-member
 from django.shortcuts import render, get_object_or_404
-from .models import Question
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import Question, Choice
 # Create your views here.
 
 
@@ -22,4 +24,12 @@ def results(request, question_id):
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'vote.html', {"question": question})
+    if request.method == 'POST':
+        try: 
+            choice = question.choice_set.get(pk=request.POST["choice"])
+        except (KeyError, Choice.DoesNotExist):
+            return render(request, 'detail.html', {'question': question, 'error_message': 'You did not make a choice'})
+        else: 
+            choice.votes += 1
+            choice.save()
+            return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
