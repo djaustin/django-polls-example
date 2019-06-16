@@ -2,6 +2,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.db.models import F
 from .models import Question, Choice
 # Create your views here.
 
@@ -30,6 +31,6 @@ def vote(request, question_id):
         except (KeyError, Choice.DoesNotExist):
             return render(request, 'detail.html', {'question': question, 'error_message': 'You did not make a choice'})
         else: 
-            choice.votes += 1
+            choice.votes = F("votes") + 1
             choice.save()
             return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
