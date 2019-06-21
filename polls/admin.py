@@ -10,6 +10,8 @@ class ChoiceInLine(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question_text', 'pub_date', 'was_published_recently', 'number_of_choices')
 
+    list_filter = ['pub_date']
+
     fieldsets = [
         (None, {
             'fields': ['question_text']
