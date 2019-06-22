@@ -1,5 +1,7 @@
+{% include "header.html" %}
 {% load static %}
-<link rel="stylesheet" type="text/css" href={% static 'polls/style.css' %} />
+<div class='container'>
+<h1>Respond to recent questions</h1>
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
@@ -11,3 +13,4 @@
 {% else %}
     <p>No polls available yet! :(</p>
 {% endif%}
+</div>
