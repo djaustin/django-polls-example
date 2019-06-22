@@ -1,5 +1,5 @@
-{% include "header.html" %}
-<div class="container">
+{% extends "base.html" %}
+{% block content %}
 <h1>{{ question.question_text }}</h1>
 {% with choices=question.choice_set.all %}
 {% if error_message %}
@@ -24,4 +24,5 @@
         <p>No choices have been added to this question yet! :(</p>
     {% endif %}
 {% endwith %}
-</div>
+
+{% endblock content %}

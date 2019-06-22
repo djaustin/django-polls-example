@@ -1,6 +1,5 @@
-{% include "header.html" %}
-{% load static %}
-<div class='container'>
+{% extends "base.html" %}
+{% block content %}
 <h1>Respond to recent questions</h1>
 {% if latest_question_list %}
     <ul>
@@ -13,4 +12,5 @@
 {% else %}
     <p>No polls available yet! :(</p>
 {% endif%}
-</div>
+{% endblock content %}
+
