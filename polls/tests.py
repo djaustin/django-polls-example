@@ -52,6 +52,13 @@ class QuestionIndexViewTests(TestCase):
             ['<Question: Past question 2.>', '<Question: Past question 1.>']
         )
 
+class QuestionResultsViewTests(TestCase):
+    
+    def test_new_question(self): 
+        question = create_question(question_text="New question", days_offset=0)
+        response = self.client.get(reverse('polls:results', args=(question.id,)))
+        self.assertNotContains(response, 'votes')
+
 class QuestionDetailViewTests(TestCase):
 
     def test_future_question(self):
